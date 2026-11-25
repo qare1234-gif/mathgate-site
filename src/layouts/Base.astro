@@ -24,6 +24,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/og.jpg`, Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="매쓰게이트 — 수학 실력은 속도가 아니라 완성도가 중요합니다." />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="ko_KR" />
     <meta name="naver-site-verification" content="b240e477698f5d8a8c31df2224f9b9e8efc8e478" />
     <meta name="google-site-verification" content="e4ZGlE6v7mYHLb0vraLQlTdSOq4m1lfLq5frfRbJPDQ" />
     <link rel="icon" href={url('images/mathgate/logo/mathgate-symbol.svg')} type="image/svg+xml" />

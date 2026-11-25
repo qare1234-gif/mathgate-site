@@ -102,4 +102,4 @@
 
 **배포 전**
 - [x] GitHub Pages 배포: `qare1234-gif/mathgate-site` → https://qare1234-gif.github.io/mathgate-site/ (main에 push하면 자동 재배포)
-- [ ] `public/og.jpg` 없음 (`Base.astro`가 공유 미리보기 이미지로 참조함)
+- [x] `public/og.jpg` 공유 미리보기 이미지 (1200×630, 남색 배경 + 로고 + 대표 문구)
