@@ -1,0 +1,223 @@
+---
+import Base from '../layouts/Base.astro';
+import CallBand from '../components/CallBand.astro';
+import Hex from '../components/Hex.astro';
+import HeroGeometry from '../components/HeroGeometry.astro';
+import Kicker from '../components/Kicker.astro';
+import Rule from '../components/Rule.astro';
+import SystemStory from '../components/SystemStory.astro';
+import T from '../components/T.astro';
+import { site, url } from '../data/site';
+import { classes } from '../data/classes';
+
+const img = (name: string) => url(`images/mathgate/photos/${name}`);
+
+// 아래 문구는 모두 학원의 에듀페스타 발표 자료(DESIGN_BRIEF.md 7절, reference/)에서 옮긴 표현입니다.
+const principles = [
+  '우리는 가르치기 전에 먼저 진단합니다.',
+  '모든 학생에게 똑같은 수업은 없습니다.',
+  '취약점은 숨기지 않습니다.',
+  '데이터로 이야기합니다.',
+  '학생이 완전히 이해했을 때, 비로소 수업이 끝납니다.',
+];
+
+const steps = [
+  { name: '개념학습', body: '핵심 개념을 익히고 개념 유형 문제로 기초를 다집니다.' },
+  { name: '개념확인학습', body: '구술 테스트를 포함한 기초진단으로 이해 여부를 직접 확인합니다.' },
+  { name: '유형학습', body: '다양한 유형 문항으로 적용력을 키웁니다.' },
+  { name: '오답학습', body: '오답 원인을 분석하고 같은 실수를 없앱니다.' },
+  { name: '오답유사학습', body: '같은 문제가 아닌 유사 문항으로 실전적 이해를 확인합니다.' },
+  { name: '확인학습', body: '최종 확인 학습으로 완전학습을 완성합니다.' },
+];
+
+// 내신·수능 대비 (DESIGN_BRIEF.md 7절 '내신·수능 대비')
+const schoolExam = [
+  { name: '학교시험 출제구조 분석', body: '중등과정 90% 이상 출제 문항 대비' },
+  { name: '교과서 평가자료', body: '교사용 지도서 1:1 매칭' },
+  { name: '내신 빈출 공략', body: '난이도 3회 반복' },
+  { name: '실전모의고사', body: '15회차' },
+];
+const suneung = ['수능완성 변별력 강화', '수능특강 완벽 대비', '모의고사 빈출 공략', '수능대비 실전 모의고사'];
+
+
+const pad = (i: number) => String(i + 1).padStart(2, '0');
+---
+<Base>
+  <!-- 히어로: brand-950 바탕, 비대칭 2단(문장 / 기하 도형). 사진 없음. 모바일에선 도형이 제목 뒤에 옅게 깔림 -->
+  <section class="relative overflow-hidden bg-brand-950 text-white">
+    <div class="relative mx-auto max-w-[1200px] px-5 pt-16 pb-20 md:pt-24 md:pb-28 grid gap-12 lg:grid-cols-[6fr_5fr] lg:gap-16 items-center">
+      <div class="relative z-10">
+        <p class="rise display-label text-sm text-lilac-300">PAJU UNJEONG · MATH ACADEMY</p>
+        <h1 class="rise rise-2 mt-6 text-[2.25rem] leading-[1.25] md:text-5xl md:leading-[1.2] font-bold tracking-[-0.02em]">
+          수학 실력은<br />
+          속도가 아니라<br />
+          완성도가 중요합니다.
+        </h1>
+
+        <Rule dark class="rise rise-3 mt-8 max-w-md" />
+
+        <p class="rise rise-3 mt-8 max-w-md text-[17px] text-white/75">
+          올바른 성장을 통해 결과로 증명하는 수학.<br class="hidden sm:inline" />
+          단 한 명의 학생을 위한 수학으로 지도합니다.
+        </p>
+
+        <div class="rise rise-3 mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <a href={url('contact')} class="inline-flex items-center h-12 px-7 bg-paper text-brand-900 font-semibold hover:bg-white transition-colors">상담 신청</a>
+          <a href={`tel:${site.phone}`} class="font-display text-xl tracking-[0.08em] text-white underline-offset-8 decoration-1 decoration-lilac-300 hover:underline">{site.phone}</a>
+        </div>
+      </div>
+
+      <HeroGeometry class="rise rise-2 pointer-events-none absolute -right-32 top-2 w-[26rem] opacity-50 sm:-right-16 sm:w-[30rem] lg:static lg:w-full lg:max-w-[30rem] lg:justify-self-end lg:opacity-100" />
+    </div>
+  </section>
+
+  <!-- 01 학원 소개: 다섯 가지 원칙. 카드 대신 1px 구분선 목록 -->
+  <section class="mx-auto max-w-[1200px] px-5 py-24 md:py-32 grid gap-14 lg:grid-cols-[5fr_7fr] lg:gap-20">
+    <div data-reveal>
+      <Kicker no="01" label="About" />
+      <h2 class="mt-5 text-3xl md:text-4xl leading-[1.3] font-bold tracking-[-0.02em] text-brand-900">매쓰게이트의<br />다섯 가지 원칙</h2>
+      <p class="mt-6 max-w-sm text-brand-500">가르치기 전에 진단하고, 완전히 이해할 때까지 확인합니다.</p>
+      <a href={url('about/philosophy')} class="inline-block mt-8 font-semibold text-brand-900 underline underline-offset-8 decoration-1 decoration-lilac-600 hover:text-lilac-600 transition-colors">교육 철학 자세히 보기</a>
+    </div>
+
+    <div data-reveal>
+      <ol class="border-t border-ink">
+        {principles.map((p, i) => (
+          <li class="grid grid-cols-[4rem_1fr] md:grid-cols-[6rem_1fr] items-baseline py-7 md:py-9 border-b border-line">
+            <span class="font-display text-3xl md:text-4xl text-lilac-600">{pad(i)}</span>
+            <p class="text-xl md:text-2xl leading-[1.45] font-semibold tracking-[-0.02em]">{p}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 공간: 로비와 교실 두 장 -->
+  <section class="mx-auto max-w-[1200px] px-5 pb-24 md:pb-32 -mt-8 md:-mt-12">
+    <div data-reveal class="grid gap-6 md:grid-cols-2 items-start">
+      <figure>
+        <img src={img('lobby.jpg')} alt="매쓰게이트 로비. 남색 안내 데스크와 흰 벽, 간접조명" width="1440" height="1081" loading="lazy" class="w-full aspect-[4/3] object-cover" />
+        <figcaption class="mt-3 text-sm text-brand-500">로비</figcaption>
+      </figure>
+      <figure>
+        <img src={img('classroom-large.jpg')} alt="창밖으로 고층 아파트가 보이는 밝은 강의실" width="1440" height="810" loading="lazy" class="hex-cut w-full aspect-[4/3] object-cover" />
+        <figcaption class="mt-3 text-sm text-brand-500">강의실</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 02 수업 안내: 단계별 학습(가로 타임라인) + 학년별 과정. 정답률 수치는 넣지 않음 -->
+  <section class="relative overflow-hidden bg-brand-950 text-white">
+    <Hex class="pointer-events-none absolute -right-32 -top-24 w-[34rem] text-lilac-300 opacity-15" />
+
+    <div class="relative mx-auto max-w-[1200px] px-5 py-24 md:py-32">
+      <div data-reveal class="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-20 items-end">
+        <div>
+          <Kicker no="02" label="Filtering System" dark />
+          <h2 class="mt-5 text-3xl md:text-4xl leading-[1.3] font-bold tracking-[-0.02em]">단계별 학습</h2>
+          <p class="mt-6 text-lg text-white/75 max-w-md">같은 문제 단순 반복이 아닌 유사 문항·확인 학습으로 오답 패턴을 단계적으로 제거합니다.</p>
+        </div>
+        <img src={img('in-session-sign.jpg')} alt="강의실 문에 걸린 '쉿! 수업중' 표지판" width="810" height="1124" loading="lazy" class="hex-cut-sm w-36 md:w-44 h-auto lg:justify-self-end" />
+      </div>
+
+      <ol data-reveal class="relative mt-16 grid gap-10 lg:grid-cols-6 lg:gap-6">
+        <span class="hidden lg:block absolute left-0 right-0 top-2 h-px bg-lilac-300/40" aria-hidden="true"></span>
+        <span class="lg:hidden absolute left-[7px] top-2 bottom-2 w-px bg-lilac-300/40" aria-hidden="true"></span>
+        {steps.map((s, i) => (
+          <li class="relative pl-10 lg:pl-0 lg:pt-12 flex flex-col">
+            <Hex class="absolute left-0 top-0 w-3.5 h-4 text-lilac-300" fill="var(--color-brand-950)" stroke={1.5} />
+            <span class="display-label text-sm text-lilac-300">Step {pad(i)}</span>
+            <h3 class="mt-2 text-lg font-semibold">{s.name}</h3>
+            <p class="mt-2 text-[15px] leading-[1.7] text-white/65">{s.body}</p>
+          </li>
+        ))}
+      </ol>
+
+      <Rule dark class="mt-20 md:mt-24" />
+
+      <!-- 학년별 과정 -->
+      <div data-reveal class="mt-20 md:mt-24">
+        <p class="display-label text-sm text-lilac-300">Courses</p>
+        <h3 class="mt-4 text-2xl md:text-3xl font-bold tracking-[-0.02em]">학년별 과정</h3>
+        <ul class="mt-8 border-t border-lilac-300/25">
+          {classes.map((c) => (
+            <li class="border-b border-lilac-300/25">
+              <a href={url(`classes/${c.slug}`)} class="group grid gap-2 md:grid-cols-[9rem_1fr_9rem_2rem] md:gap-8 py-6 md:items-baseline">
+                <span class="text-xl font-semibold group-hover:text-lilac-300 transition-colors">{c.title}</span>
+                <span class="text-white/70"><T text={c.lead} /></span>
+                <span class="text-sm text-white/55"><T text={c.weeklyHours} /></span>
+                <span class="hidden md:block text-lilac-300 group-hover:translate-x-1 transition-transform" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 내신·수능 대비: paper 바탕 2단. 자료 이미지는 이미지 배경과 같은 색 면 위에 올려 경계를 없앰 -->
+  <section class="mx-auto max-w-[1200px] px-5 py-24 md:py-32">
+    <div data-reveal>
+      <p class="display-label text-sm text-lilac-600">Exam Prep</p>
+      <h2 class="mt-5 text-3xl md:text-4xl font-bold tracking-[-0.02em] text-brand-900">내신 · 수능 대비</h2>
+    </div>
+    <div class="mt-14 grid gap-16 lg:grid-cols-2 lg:gap-12">
+      <article data-reveal class="flex flex-col">
+        <div class="flex items-baseline justify-between border-b border-ink pb-4">
+          <h3 class="text-2xl font-bold tracking-[-0.02em] text-brand-900">내신</h3>
+          <span class="display-label text-sm text-lilac-600">School Exam</span>
+        </div>
+        <ol>
+          {schoolExam.map((e, i) => (
+            <li class="grid grid-cols-[3rem_1fr] sm:grid-cols-[3rem_13rem_1fr] gap-y-1 py-5 border-b border-line items-baseline">
+              <span class="font-display text-lg text-lilac-600">{pad(i)}</span>
+              <span class="font-semibold">{e.name}</span>
+              <span class="col-start-2 sm:col-start-3 text-ink/75">{e.body}</span>
+            </li>
+          ))}
+        </ol>
+        <div class="mt-8 bg-panel-slate">
+          <img src={img('system/school-exam-materials.png')} alt="중1-1 중간고사 교사용 평가 자료와 교과서, 적중형 내신대비 자료 목록" width="765" height="395" loading="lazy" class="w-full h-auto" />
+        </div>
+      </article>
+
+      <article data-reveal class="flex flex-col">
+        <div class="flex items-baseline justify-between border-b border-ink pb-4">
+          <h3 class="text-2xl font-bold tracking-[-0.02em] text-brand-900">수능</h3>
+          <span class="display-label text-sm text-lilac-600">CSAT</span>
+        </div>
+        <ol>
+          {suneung.map((name, i) => (
+            <li class="grid grid-cols-[3rem_1fr] py-5 border-b border-line items-baseline">
+              <span class="font-display text-lg text-lilac-600">{pad(i)}</span>
+              <span class="font-semibold">{name}</span>
+            </li>
+          ))}
+        </ol>
+        <!-- 원본 이미지 맨 아래 2px 흰 줄을 가리려고 overflow-hidden + 음수 margin -->
+        <div class="mt-8 bg-panel-lilac overflow-hidden">
+          <img src={img('system/suneung-materials.png')} alt="EBS 수능특강, 올림포스 기출문제집, 수능대비 실전 모의고사 자료" width="765" height="475" loading="lazy" class="w-full h-auto -mb-[0.5%]" />
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 03 관리 시스템: paper ↔ brand-950 교차 (SystemStory.astro) -->
+  <SystemStory />
+
+  <!-- 04 수강후기: 실제 후기를 받을 때까지 자리만 둡니다 (가짜 후기 금지) -->
+  <section class="bg-brand-950 text-white">
+    <div data-reveal class="mx-auto max-w-[1200px] px-5 py-24 md:py-28 grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-20 items-end">
+      <div>
+        <Kicker no="04" label="Reviews" dark />
+        <h2 class="mt-5 text-3xl md:text-4xl font-bold tracking-[-0.02em]">수강후기</h2>
+      </div>
+      <div>
+        <p class="text-lg text-white/75"><span class="todo">[원장님 확인 필요] 학부모·학생 동의를 받은 실제 후기를 받으면 이 자리에 싣습니다.</span></p>
+        <a href={url('reviews')} class="inline-block mt-6 font-semibold underline underline-offset-8 decoration-1 decoration-lilac-300 hover:text-lilac-300 transition-colors">수강후기 페이지로</a>
+      </div>
+    </div>
+  </section>
+
+  <CallBand />
+</Base>

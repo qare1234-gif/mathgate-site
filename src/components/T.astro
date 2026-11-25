@@ -1,0 +1,6 @@
+---
+// [TODO]로 시작하는 문구를 노란색으로 표시해 줍니다.
+const { text = '' } = Astro.props as { text?: string };
+const isTodo = text.includes('[TODO]');
+---
+{isTodo ? <span class="todo">{text}</span> : text}

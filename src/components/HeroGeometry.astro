@@ -1,0 +1,26 @@
+---
+// 히어로 오른쪽 기하 구성: reference/01-cover.jpg의 큰 육각형 외곽선 + 겹치는 삼각형을 1px 선으로만 재구성.
+// lilac-300, 선마다 opacity 20~40%. 발광·그라디언트·채움 없음.
+interface Props { class?: string }
+const { class: className = '' } = Astro.props;
+
+// 꼭짓점이 위로 간 정육각형 / 위를 향한 정삼각형 꼭짓점 좌표
+const hex = (cx: number, cy: number, r: number) =>
+  Array.from({ length: 6 }, (_, k) => {
+    const a = (Math.PI / 180) * (-90 + 60 * k);
+    return `${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`;
+  }).join(' ');
+const tri = (apexX: number, apexY: number, side: number) => {
+  const h = (side * Math.sqrt(3)) / 2;
+  return `${apexX},${apexY} ${apexX + side / 2},${(apexY + h).toFixed(1)} ${apexX - side / 2},${(apexY + h).toFixed(1)}`;
+};
+---
+<svg class={className} viewBox="0 0 560 560" fill="none" stroke="var(--color-lilac-300)" aria-hidden="true">
+  <g stroke-width="1" vector-effect="non-scaling-stroke">
+    <polygon points={hex(300, 250, 220)} stroke-opacity="0.4" vector-effect="non-scaling-stroke" />
+    <polygon points={hex(132, 432, 62)} stroke-opacity="0.3" vector-effect="non-scaling-stroke" />
+    <polygon points={tri(392, 196, 316)} stroke-opacity="0.32" vector-effect="non-scaling-stroke" />
+    <polygon points={tri(318, 318, 196)} stroke-opacity="0.22" vector-effect="non-scaling-stroke" />
+    <line x1="250" y1="4" x2="556" y2="534" stroke-opacity="0.2" vector-effect="non-scaling-stroke" />
+  </g>
+</svg>

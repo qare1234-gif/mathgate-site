@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site, url } from '../data/site';
+
+interface Props { title?: string; description?: string; }
+const { title, description = site.description } = Astro.props;
+// 페이지마다 다른 제목이 붙어 검색 결과에서 구분됩니다.
+const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | 파주 운정 초·중·고 수학`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/og.jpg`, Astro.site)} />
+    <meta name="naver-site-verification" content="b240e477698f5d8a8c31df2224f9b9e8efc8e478" />
+    <meta name="google-site-verification" content="e4ZGlE6v7mYHLb0vraLQlTdSOq4m1lfLq5frfRbJPDQ" />
+    <link rel="icon" href={url('images/mathgate/logo/mathgate-symbol.svg')} type="image/svg+xml" />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'EducationalOrganization',
+      name: site.name,
+      telephone: site.phone,
+      address: site.address,
+      url: Astro.site?.toString(),
+    })} />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 bg-paper text-brand-900 px-3 py-2">본문 바로가기</a>
+    <Header />
+    <main id="main" class="flex-1"><slot /></main>
+    <Footer />
+    <script>
+      // 섹션 진입 시 한 번만 살짝 떠오르게 (data-reveal)
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+      }, { rootMargin: '0px 0px -10% 0px' });
+      document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>

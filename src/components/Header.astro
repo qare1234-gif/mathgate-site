@@ -1,0 +1,84 @@
+---
+import { nav, site, url } from '../data/site';
+const current = Astro.url.pathname.replace(/\/$/, '');
+const isActive = (href: string) => current === url(href);
+---
+<header class="sticky top-0 z-40 bg-paper text-brand-900 border-b border-line">
+  <div class="mx-auto max-w-[1200px] px-5 h-16 lg:h-20 flex items-center justify-between gap-6">
+    <a href={url()} class="shrink-0" aria-label={`${site.name} 홈`}>
+      <img src={url('images/mathgate/logo/mathgate-logo-notag.svg')} alt={site.shortName} width="750" height="207" class="h-7 lg:h-10 w-auto" />
+    </a>
+
+    <nav aria-label="주 메뉴" class="hidden lg:block">
+      <ul class="flex items-center gap-2">
+        {nav.map((item) => (
+          <li class="relative group">
+            {'items' in item && item.items ? (
+              <>
+                <button type="button" class="px-3 py-2 text-[15px] font-medium text-brand-900 hover:text-lilac-600 transition-colors" aria-haspopup="true">
+                  {item.label}
+                </button>
+                <ul class="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity absolute left-0 top-full min-w-44 bg-paper border border-line py-2">
+                  {item.items.map((sub) => (
+                    <li>
+                      <a href={url(sub.href)} class:list={['block px-4 py-2 text-[15px] transition-colors hover:text-lilac-600 hover:bg-white', isActive(sub.href) ? 'text-lilac-600 font-semibold' : 'text-brand-900']}>
+                        {sub.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <a href={url(item.href)} class:list={['px-3 py-2 text-[15px] font-medium text-brand-900 transition-colors hover:text-lilac-600', isActive(item.href!) && 'underline underline-offset-8 decoration-1 decoration-lilac-600']}>
+                {item.label}
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href={url('contact')} class="hidden sm:inline-flex items-center h-10 px-5 bg-brand-900 text-[15px] font-semibold text-paper hover:bg-brand-950 transition-colors">
+        상담 신청
+      </a>
+      <button id="menu-btn" type="button" class="lg:hidden h-10 px-3 border border-line text-[15px] hover:border-brand-900 transition-colors" aria-expanded="false" aria-controls="mobile-menu">
+        메뉴
+      </button>
+    </div>
+  </div>
+
+  <nav id="mobile-menu" aria-label="모바일 메뉴" class="lg:hidden hidden border-t border-line bg-paper">
+    <ul class="mx-auto max-w-[1200px] px-5 py-5 grid gap-5">
+      {nav.map((item) => (
+        <li>
+          {'items' in item && item.items ? (
+            <>
+              <p class="text-sm text-lilac-600 mb-1">{item.label}</p>
+              <ul class="grid gap-1 pl-3 border-l border-line">
+                {item.items.map((sub) => <li><a href={url(sub.href)} class="block py-1">{sub.label}</a></li>)}
+              </ul>
+            </>
+          ) : (
+            <a href={url(item.href)} class="block font-medium">{item.label}</a>
+          )}
+        </li>
+      ))}
+      <li class="flex gap-2 pt-2">
+        <a href={url('contact')} class="flex-1 text-center h-11 leading-[2.75rem] bg-brand-900 text-paper font-semibold">상담 신청</a>
+        <a href={`tel:${site.phone}`} class="flex-1 text-center h-11 leading-[2.75rem] border border-brand-900 font-display tracking-[0.08em]">{site.phone}</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    btn.textContent = open ? '메뉴' : '닫기';
+    menu?.classList.toggle('hidden', open);
+  });
+</script>

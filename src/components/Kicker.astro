@@ -1,0 +1,6 @@
+---
+// 섹션 번호 라벨: "01 — ABOUT". 어두운 면은 lilac-300, 밝은 면은 lilac-600
+interface Props { no: string; label: string; dark?: boolean }
+const { no, label, dark = false } = Astro.props;
+---
+<p class:list={['display-label text-sm', dark ? 'text-lilac-300' : 'text-lilac-600']}>{no} — {label}</p>

@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import T from '../../components/T.astro';
+import { site } from '../../data/site';
+---
+<Base title="오시는 길" description="매쓰게이트 수학전문학원 위치와 연락처. 파주 운정 해오름마을.">
+  <PageHead section="학원 소개" title="오시는 길" />
+  <div class="mx-auto max-w-[1200px] px-5 mt-16 grid gap-10 md:grid-cols-[1fr_22rem]">
+    <!-- 지도: 네이버 지도 '공유 > HTML 태그 복사'로 받은 iframe을 아래 상자 대신 붙여 넣으세요 -->
+    <div class="aspect-[4/3] bg-white border border-line flex items-center justify-center text-sm"><span class="todo">네이버 지도 넣을 자리</span></div>
+    <dl class="grid gap-6 content-start">
+      <div><dt class="text-sm text-brand-500">주소</dt><dd class="mt-1 text-lg font-semibold"><T text={site.address} /></dd></div>
+      <div><dt class="text-sm text-brand-500">전화</dt><dd class="mt-1 text-lg font-semibold"><a href={`tel:${site.phone}`}>{site.phone}</a></dd></div>
+      <div><dt class="text-sm text-brand-500">주차 · 대중교통</dt><dd class="mt-1"><span class="todo">[TODO] 주차 가능 여부, 가까운 버스 정류장</span></dd></div>
+      {site.naverMap && <a href={site.naverMap} class="inline-flex justify-center h-12 items-center border border-ink font-semibold">네이버 지도에서 열기</a>}
+    </dl>
+  </div>
+</Base>

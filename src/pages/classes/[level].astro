@@ -1,0 +1,76 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import CallBand from '../../components/CallBand.astro';
+import T from '../../components/T.astro';
+import { classes, type ClassInfo } from '../../data/classes';
+import { url } from '../../data/site';
+
+export function getStaticPaths() {
+  return classes.map((c) => ({ params: { level: c.slug }, props: { info: c } }));
+}
+const { info } = Astro.props as { info: ClassInfo };
+---
+<Base title={`${info.title} 수업 안내`} description={`매쓰게이트 ${info.title} 시간표와 수업 방식. ${info.lead.replace('[TODO] ', '')}`}>
+  <PageHead section="수업 안내" title={`${info.title} 수업 안내`} lead=" ">
+    <T slot="lead" text={info.lead} />
+  </PageHead>
+
+  <div class="mx-auto max-w-5xl px-5 mt-16">
+    <h2 class="text-brand-900 text-xl font-bold">시간표 <span class="ml-2 text-base font-medium text-brand-500"><T text={info.weeklyHours} /></span></h2>
+    <div class="mt-4 overflow-x-auto">
+      <table class="w-full min-w-[32rem] text-left border-t border-ink">
+        <tbody>
+          {info.schedule.map((s) => (
+            <tr class="border-b border-line">
+              <th scope="row" class="py-4 pr-6 font-semibold whitespace-nowrap align-top"><T text={s.group} /></th>
+              <td class="py-4 text-ink/75"><T text={s.time} /></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {info.steps && (
+      <section class="mt-16">
+        <h2 class="text-brand-900 text-xl font-bold">학습 단계</h2>
+        <ol class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-lg">
+          {info.steps.map((s, i) => (
+            <li class="flex items-center gap-3">
+              <span class="inline-flex w-8 h-8 items-center justify-center border border-ink text-sm font-bold">{i + 1}</span>
+              <span class="font-semibold">{s}</span>
+              {i < info.steps!.length - 1 && <span class="text-brand-500" aria-hidden="true">›</span>}
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+
+    <section class="mt-16 grid gap-10">
+      {info.tracks.map((t) => (
+        <div class="border-l-4 border-ink pl-6">
+          <h2 class="text-brand-900 text-xl md:text-2xl font-bold"><T text={t.name} /></h2>
+          <ul class="mt-4 grid gap-3 text-[17px] leading-[1.8] text-ink/75 max-w-[40rem]">
+            {t.body.map((b) => <li><T text={b} /></li>)}
+          </ul>
+        </div>
+      ))}
+    </section>
+
+    {info.books && (
+      <p class="mt-12 text-[15px]"><span class="text-brand-500 mr-2">사용 교재</span>{info.books}</p>
+    )}
+
+    <ul class="mt-10 text-sm text-brand-500 grid gap-1">
+      {info.notes.map((n) => <li>※ {n}</li>)}
+    </ul>
+
+    <nav class="mt-16 flex flex-wrap gap-2" aria-label="다른 학년">
+      {classes.filter((c) => c.slug !== info.slug).map((c) => (
+        <a href={url(`classes/${c.slug}`)} class="h-11 px-5 inline-flex items-center border border-line hover:border-ink">{c.title} 보기</a>
+      ))}
+      <a href={url('classes/tuition')} class="h-11 px-5 inline-flex items-center border border-line hover:border-ink">수강료 보기</a>
+    </nav>
+  </div>
+  <CallBand />
+</Base>

@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import CallBand from '../../components/CallBand.astro';
+import T from '../../components/T.astro';
+import { tuition } from '../../data/classes';
+import { site } from '../../data/site';
+---
+<Base title="수강료 안내" description="매쓰게이트 초등·중등·고등 수강료(교습비) 안내.">
+  <PageHead section="수업 안내" title="수강료 안내" lead={`${site.registration} 학원으로, 교육지원청에 신고한 교습비를 받습니다.`} />
+  <div class="mx-auto max-w-4xl px-5 mt-16 overflow-x-auto">
+    <table class="w-full min-w-[30rem] text-left border-t border-ink">
+      <thead><tr class="text-sm text-brand-500"><th class="py-3 font-normal">과정</th><th class="py-3 font-normal">월 수강료</th><th class="py-3 font-normal">비고</th></tr></thead>
+      <tbody>
+        {tuition.map((t) => (
+          <tr class="border-t border-line">
+            <th scope="row" class="py-5 pr-6 text-lg font-bold whitespace-nowrap">{t.level}</th>
+            <td class="py-5 pr-6 text-lg whitespace-nowrap">{t.fee}</td>
+            <td class="py-5 text-ink/75 text-[15px]"><T text={t.detail} /></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <p class="mt-6 text-sm text-brand-500">※ 교재비는 별도입니다. <span class="todo">[TODO] 실제 운영 기준 확인</span></p>
+  </div>
+  <CallBand />
+</Base>

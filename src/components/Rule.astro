@@ -1,0 +1,10 @@
+---
+// 섹션 구분선: 1px 선 끝에 작은 육각형 하나
+import Hex from './Hex.astro';
+interface Props { dark?: boolean; class?: string }
+const { dark = false, class: className = '' } = Astro.props;
+---
+<div class:list={['flex items-center gap-3', className]} aria-hidden="true">
+  <span class:list={['h-px flex-1', dark ? 'bg-lilac-300/40' : 'bg-line']}></span>
+  <Hex class:list={['w-2.5 h-3 shrink-0', dark ? 'text-lilac-300' : 'text-lilac-600']} stroke={1.5} />
+</div>

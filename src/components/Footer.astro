@@ -1,0 +1,38 @@
+---
+import { nav, site, url } from '../data/site';
+import T from './T.astro';
+---
+<footer class="bg-brand-950 text-white/75">
+  <div class="mx-auto max-w-[1200px] px-5 py-16 grid gap-12 md:grid-cols-[5fr_7fr]">
+    <div>
+      <img src={url('images/mathgate/logo/mathgate-logo-reverse.svg')} alt={site.name} width="748" height="229" loading="lazy" class="h-12 w-auto" />
+      <p class="mt-8 text-[15px] leading-7">
+        <T text={site.address} /><br />
+        전화 <a href={`tel:${site.phone}`} class="font-display tracking-[0.08em] text-white hover:text-lilac-300 transition-colors">{site.phone}</a><br />
+        {site.registration}
+      </p>
+    </div>
+    <nav aria-label="사이트 지도" class="grid grid-cols-2 sm:grid-cols-4 gap-8 text-[15px]">
+      {nav.map((item) => (
+        <div>
+          {'items' in item && item.items ? (
+            <>
+              <p class="text-sm font-medium text-lilac-300">{item.label}</p>
+              <ul class="mt-3 grid gap-2">
+                {item.items.map((sub) => <li><a href={url(sub.href)} class="hover:text-white transition-colors">{sub.label}</a></li>)}
+              </ul>
+            </>
+          ) : (
+            <a href={url(item.href)} class="text-sm font-medium text-lilac-300 hover:text-white transition-colors">{item.label}</a>
+          )}
+        </div>
+      ))}
+    </nav>
+  </div>
+  <div class="border-t border-lilac-300/20">
+    <div class="mx-auto max-w-[1200px] px-5 py-5 flex flex-wrap justify-between gap-3 text-sm text-white/45">
+      <p>© {new Date().getFullYear()} {site.name}</p>
+      <a href={url('contact')} class="hover:text-white transition-colors">상담 신청</a>
+    </div>
+  </div>
+</footer>

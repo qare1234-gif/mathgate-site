@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import CallBand from '../components/CallBand.astro';
+import T from '../components/T.astro';
+import { reviews } from '../data/reviews';
+---
+<Base title="수강후기" description="매쓰게이트 학생과 학부모님이 남겨 주신 수강후기입니다.">
+  <PageHead section="수강후기" title="다녀 본 학생과 학부모님의 이야기" />
+  <div class="mx-auto max-w-4xl px-5 mt-16">
+    <ul class="grid gap-12">
+      {reviews.map((r) => (
+        <li class="grid md:grid-cols-[10rem_1fr] gap-3 md:gap-10">
+          <p class="text-sm text-brand-500 md:pt-1"><T text={r.who} /></p>
+          <blockquote class="text-lg leading-[1.85]"><T text={r.body} /></blockquote>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <CallBand />
+</Base>

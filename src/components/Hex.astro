@@ -1,0 +1,8 @@
+---
+// 로고와 같은 꼭짓점이 위로 간 육각형 외곽선. 사이트의 유일한 장식 도형입니다.
+interface Props { class?: string; stroke?: number; fill?: string }
+const { class: className = '', stroke = 1, fill = 'none' } = Astro.props;
+---
+<svg class={className} viewBox="0 0 86.6 100" fill={fill} aria-hidden="true">
+  <polygon points="43.3,1 85.6,25.5 85.6,74.5 43.3,99 1,74.5 1,25.5" stroke="currentColor" stroke-width={stroke} vector-effect="non-scaling-stroke" />
+</svg>
